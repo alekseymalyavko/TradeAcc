@@ -1,0 +1,74 @@
+swagger:  "2.0" 
+info:
+  description:  Trade
+  version:  0.0.0 
+  title:  Trade API
+  contact:
+    email:  pavel.ramasheuski@gmail.com
+host:  localhost:3000
+tags:
+- name:  authentication 
+  description:  Need to add more statuses
+schemes:
+-  http 
+basePath:  /api 
+paths:
+  /account/signUp:
+    post:
+      summary: (user)
+      tags:
+      -  authentication 
+      description:  Allow to signUP in app
+      parameters:
+      - in:  body 
+        name:  body 
+        required: true    
+        schema:             
+          type:  object 
+          properties:
+            username:
+              type:  string 
+            password:
+              type:  string 
+            passwordConfirm:
+              type:  string 
+      responses:
+        202:
+          description:  Successful login 
+        500:
+          description:  Unhandled server error 
+  /account/login:
+    post:
+      summary: (user)
+      tags:
+      -  authentication 
+      description:  Allow to login in app, return user info and set cookie 
+      parameters:
+      - in:  body 
+        name:  body 
+        required: true    
+        schema:             
+          type:  object 
+          properties:
+            username:
+              type:  string 
+            password:
+              type:  string 
+      responses:
+        202:
+          description:  Successful login 
+        500:
+          description:  Unhandled server error 
+  /account/logout:
+    get:  
+      summary: (user)
+      tags:
+        -  authentication 
+      description:  It expires token from rvision, but token also should be removed on front side 
+      responses:
+        200:
+          description:  Successfull operation 
+        500:
+          description:  Unhandled server error 
+
+      
