@@ -1,6 +1,6 @@
 import JWT from 'jsonwebtoken';
 import emailCheck from 'email-check';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { Errors } from '../utils/constants';
 import userController from './user-controller';
 
