@@ -70,7 +70,7 @@ paths:
       summary: (user)
       tags:
         -  authentication 
-      description:  It expires token from rvision, but token also should be removed on front side 
+      description:  Removes cookies from front-side
       responses:
         200:
           description:  Successfull operation 
@@ -89,6 +89,7 @@ paths:
             $ref:  "#/definitions/UserInfo" 
         500:
           description:  Unhandled server error 
+
   /user/changePassword:
     post:
       summary: (user)
@@ -110,7 +111,86 @@ paths:
         200:
           description:  Successfull operation 
         500:
-          description:  Unhandled server error 
+          description:  Unhandled server error
+  /user/balanceUp:
+    post:
+      summary: (user)
+      tags:
+        -  user 
+      description:  Allows to up user balance
+      parameters:
+      - in:  body 
+        name:  body 
+        required: true    
+        schema:             
+          type:  object 
+          properties:
+            balanceChange:
+              type:  number 
+      responses:
+        200:
+          description:  Successfull operation 
+        500:
+          description:  Unhandled server error  
+
+  /ad:
+    get:
+      summary: (user)
+      tags:
+        -  ad
+      description:  Return array of ads
+      responses:
+        200:
+          description:  Successfull operation 
+          schema: 
+            type: array
+            items:
+              $ref:  "#/definitions/Ads" 
+
+        500:
+          description:  Unhandled server error         
+  /ad/create:
+    post:
+      summary: (user)
+      tags:
+        -  ad
+      description:  Allows for user to create ad
+      parameters:
+      - in:  body 
+        name:  body 
+        required: true    
+        schema:             
+          type:  object 
+          properties:
+            description:
+              type:  string 
+            price:
+              type:  number
+      responses:
+        200:
+          description:  Successfull operation 
+        500:
+          description:  Unhandled server error  
+  /ad/buy:
+    post:
+      summary: (user)
+      tags:
+        -  ad
+      description:  Allows for user to buy ad, update balance of customer and ad creator
+      parameters:
+      - in:  body 
+        name:  body 
+        required: true    
+        schema:             
+          type:  object 
+          properties:
+            _id:
+              type:  string 
+      responses:
+        200:
+          description:  Successfull operation 
+        500:
+          description:  Unhandled server error  
 
 
 definitions:
@@ -123,3 +203,19 @@ definitions:
         type: string
       balance: 
         type: string
+  Ads:
+    type: object
+    properties: 
+      creator: 
+        type: string
+      customer: 
+        type: string
+      description: 
+        type: string
+      timeOfCreation:
+        type: string
+      isOpened:
+        type: boolean
+      price:
+        type: number
+
