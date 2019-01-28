@@ -28,13 +28,17 @@ paths:
           properties:
             username:
               type:  string 
+            email:
+              type:  string 
             password:
               type:  string 
             passwordConfirm:
               type:  string 
       responses:
-        202:
+        200:
           description:  Successful login 
+          schema: 
+            $ref:  "#/definitions/UserInfo" 
         500:
           description:  Unhandled server error 
   /account/login:
@@ -55,8 +59,10 @@ paths:
             password:
               type:  string 
       responses:
-        202:
+        200:
           description:  Successful login 
+          schema: 
+            $ref:  "#/definitions/UserInfo" 
         500:
           description:  Unhandled server error 
   /account/logout:
@@ -70,5 +76,50 @@ paths:
           description:  Successfull operation 
         500:
           description:  Unhandled server error 
+  /user:
+    get:
+      summary: (user)
+      tags:
+        -  user 
+      description:  Return user info
+      responses:
+        200:
+          description:  Successfull operation 
+          schema: 
+            $ref:  "#/definitions/UserInfo" 
+        500:
+          description:  Unhandled server error 
+  /user/changePassword:
+    post:
+      summary: (user)
+      tags:
+        -  user 
+      description:  Return user info
+      parameters:
+      - in:  body 
+        name:  body 
+        required: true    
+        schema:             
+          type:  object 
+          properties:
+            oldPassword:
+              type:  string 
+            newPassword:
+              type:  string
+      responses:
+        200:
+          description:  Successfull operation 
+        500:
+          description:  Unhandled server error 
 
-      
+
+definitions:
+  UserInfo:
+    type: object
+    properties: 
+      username: 
+        type: string
+      email: 
+        type: string
+      balance: 
+        type: string

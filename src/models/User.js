@@ -5,12 +5,10 @@ const UserSchema = new mongoose.Schema({
     type: String, required: true, minlength: 1, trim: true, unique: true,
   },
   email: {
-    type: String, minlength: 1, trim: true, unique: true,
+    type: String, required: true, minlength: 1, trim: true, unique: true,
   },
   passwordHash: { type: String, required: true },
-  currency: {
-    type: String, minlength: 1, trim: true,
-  },
+  balance: { type: Number, default: 0 },
 });
 
 module.exports = mongoose.model('User', UserSchema);
