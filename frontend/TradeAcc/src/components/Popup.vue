@@ -1,31 +1,40 @@
 <template>
   <div class="popup_wrapper">
-    <div class="form">
-      <span class="close_button"></span>
-      <form name="popup">
+    <div class="form" :class="{ warning: isError }">
+      <span class="close_button" @click="close">×</span>
+      <p class="warning_message" v-if="isError">Неверные данные</p>
 
-      </form>
+      <Signup v-if="component === 'Signup' "/>
+      <Login v-if="component === 'Login' "/>
 
     </div>
-
   </div>
 </template>
 
 <script>
+import Signup from "./Signup.vue";
+import Login from "./Login.vue";
 
 
 export default {
   name: "Popup",
-  data () {
-    return {
-      data: 1
+  components: {
+    Signup,
+    Login,
+  },
+  computed: {
+    isError() {
+      return this.$store.getters.getPopup.isError
+    },
+    component() {
+      return this.$store.getters.getPopup.component
     }
   },
-  props: {
-
-  },
   methods: {
-
+    close: function() {
+      const props = { isOpen: false, isError: false, component: false };
+      this.$store.dispatch("openPopup", props);
+    }
   },
   
 };
@@ -66,6 +75,13 @@ export default {
       width: 100%;
       padding-bottom: 10px;
       border-bottom: 1px solid #E5E6E8;
+    }
+
+    &.warning {
+      border: 1px solid red;
+    }
+    .warning_message {
+      color: red;
     }
   }
 

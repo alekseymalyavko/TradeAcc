@@ -1,38 +1,28 @@
 <template>
-  <div class="header">
-    <img class="header_logo" alt="Vue logo" src="../assets/logo.png" />
-    <div class="header_functional">
-      <div class="header_functional_add" @click="createAd">Создать объявление</div>
-      <div class="header_functional_login">
-        <span class="LogIn" @click="logIn">Войти</span> / <span class="signUp" @click="signUp">Регистрация</span>
-      </div>
-    </div>
+  <div>
+    <Header/>
+
+    <Popup v-if="isOpen"/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
+import Header from "@/components/Header.vue";
+import Popup from "@/components/Popup.vue";
 
 export default {
   name: "Main",
   components: {
-    // HelloWorld
+    Header,
+    Popup
   },
-  data() {
-    return {
-      data: 1
-    }
+  computed:{
+    isOpen() {
+      return this.$store.getters.getPopup.isOpen
+    },
   },
   methods: {
-    logIn: function(e) {
-      console.log("login")
-    },
-    signUp: function(e) {
-      console.log("signUp")
-    },
-    createAd: function(e) {
-      console.log("createAd")
-    }
+
   }
 };
 </script>
