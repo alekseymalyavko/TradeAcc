@@ -5,16 +5,11 @@ import { Errors } from '../utils/constants';
 import userController from './user-controller';
 
 
-async function setCookiesForUser(res, user) {
+async function createTokenForUser(res, user) {
   const token = await JWT.sign({ _id: user._id, username: user.username }, process.env.JWT_SECRET, {
     expiresIn: '7 days', // expires in 7 days
   });
-  const cookies = [`SSOSESSIONID=${token}; Path=/`];
-  res.setHeader('set-cookie', cookies);
-}
-async function deleteCookiesForUser(res) {
-  const cookies = [`SSOSESSIONID=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`];
-  res.setHeader('set-cookie', cookies);
+  return token;
 }
 
 function checkPassword(user, password) {
@@ -31,10 +26,13 @@ async function checkEmail(email) {
 }
 async function checkUserLoginStatus(req, res, next) {
   try {
-    if (!req.cookies.SSOSESSIONID) {
+    const authHeader = req.headers.authorization;
+    if (!authHeader|| !authHeader.startsWith("Bearer ")) {
       throw Errors.UserNotLogin;
     }
-    const { _id, username } = await JWT.verify(req.cookies.SSOSESSIONID, process.env.JWT_SECRET);
+
+    const token = authHeader.substring(7, authHeader.length);
+    const { _id, username } = await JWT.verify(token, process.env.JWT_SECRET);
     if (!_id) {
       throw Errors.UserNotLogin;
     }
@@ -57,8 +55,7 @@ async function changeUserPassword({ oldPassword, newPassword, username }) {
 }
 
 export default {
-  setCookiesForUser,
-  deleteCookiesForUser,
+  createTokenForUser,
   checkPassword,
   changeUserPassword,
   checkEmail,

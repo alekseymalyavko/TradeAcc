@@ -32,13 +32,11 @@ paths:
               type:  string 
             password:
               type:  string 
-            passwordConfirm:
-              type:  string 
       responses:
         200:
           description:  Successful login 
           schema: 
-            $ref:  "#/definitions/UserInfo" 
+            $ref:  "#/definitions/Token" 
         500:
           description:  Unhandled server error 
   /account/login:
@@ -62,20 +60,10 @@ paths:
         200:
           description:  Successful login 
           schema: 
-            $ref:  "#/definitions/UserInfo" 
+            $ref:  "#/definitions/Token" 
         500:
           description:  Unhandled server error 
-  /account/logout:
-    get:  
-      summary: (user)
-      tags:
-        -  authentication 
-      description:  Removes cookies from front-side
-      responses:
-        200:
-          description:  Successfull operation 
-        500:
-          description:  Unhandled server error 
+
   /user:
     get:
       summary: (user)
@@ -194,6 +182,11 @@ paths:
 
 
 definitions:
+  Token: 
+    type: object
+    properties: 
+      token: 
+        type: string
   UserInfo:
     type: object
     properties: 
