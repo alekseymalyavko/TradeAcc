@@ -53,10 +53,7 @@ router.route('/login')
 router.route('/signUp')
   .post(async (req, res, next) => {
     try {
-      const { username, email, password, passwordConfirm } = req.body;
-      if (password !== passwordConfirm) {
-        throw Errors.PasswordsAreNotTheSame;
-      }
+      const { username, email, password } = req.body;
       const userWithSameEmail = !!(await userController.getUser({ email }));
       if (userWithSameEmail) {
         throw Errors.UserWithTheSameEmailAlreadyExists;

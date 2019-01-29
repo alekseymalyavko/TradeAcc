@@ -32,8 +32,6 @@ paths:
               type:  string 
             password:
               type:  string 
-            passwordConfirm:
-              type:  string 
       responses:
         200:
           description:  Successful login 
