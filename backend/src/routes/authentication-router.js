@@ -42,8 +42,8 @@ router.route('/login')
         next(err);
       }
       if (user) {
-        await accountController.setCookiesForUser(res, user);
-        res.status(200).send(userController.hidePrivateUserProperties(user));
+        const token = await accountController.createTokenForUser(res, user);
+        res.status(200).send({ token });
       }
       res.status(500).send(info);
     })(req, res, next);
@@ -69,23 +69,15 @@ router.route('/signUp')
       if (!isValidEmail) {
         throw Errors.NotValidEmail;
       }
-      const user = await userController.saveUser(username, email, password);
+      await userController.saveUser(username, email, password);
 
-      res.status(200).send(userController.hidePrivateUserProperties(user));
+      const token = await accountController.createTokenForUser(res, user);
+      res.status(200).send({ token });
     } catch (err) {
       next(err);
     }
   });
 
-router.route('/logout')
-  .get(async (req, res, next) => {
-    try {
-      await accountController.deleteCookiesForUser(res);
-      res.status(200).end();
-    } catch (err) {
-      next(err)
-    }
-  });
 
 
 module.exports = router;
