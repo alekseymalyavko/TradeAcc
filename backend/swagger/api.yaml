@@ -90,7 +90,7 @@ paths:
           schema: 
             type: array
             items:
-              $ref:  "#/definitions/Ads" 
+              $ref:  "#/definitions/Ad" 
         500:
           description:  Unhandled server error 
 
@@ -163,15 +163,15 @@ paths:
           schema: 
             type: array
             items:
-              $ref:  "#/definitions/Ads" 
+              $ref:  "#/definitions/Ad" 
         500:
           description:  Unhandled server error 
 
-  /ad:
+  /ads:
     get:
       summary: (user)
       tags:
-        -  ad
+        -  ads
       description:  Return array of all ads
       responses:
         200:
@@ -179,15 +179,15 @@ paths:
           schema: 
             type: array
             items:
-              $ref:  "#/definitions/Ads" 
+              $ref:  "#/definitions/Ad" 
 
         500:
           description:  Unhandled server error         
-  /ad/create:
+  /ads/create:
     post:
       summary: (user)
       tags:
-        -  ad
+        -  ads
       description:  Allows for user to create ad
       parameters:
       - in:  body 
@@ -206,35 +206,26 @@ paths:
         500:
           description:  Unhandled server error  
 
-  /ad/{adID}:
+  /ads/{adID}:
     get:
       summary: (user)
       tags:
-        -  ad
+        -  ads
       description:  Return ad with adID
       responses:
         200:
           description:  Successfull operation 
           schema: 
-              $ref:  "#/definitions/Ads" 
+              $ref:  "#/definitions/Ad" 
         500:
           description:  Unhandled server error  
-           
-  /ad/{adID}/buy:
+
+  /ads/{adID}/buy:
     post:
       summary: (user)
       tags:
-        -  ad
+        -  ads
       description:  Allows for user to buy ad with adID, update balance of customer and ad creator
-      parameters:
-      - in:  body 
-        name:  body 
-        required: true    
-        schema:             
-          type:  object 
-          properties:
-            _id:
-              type:  string 
       responses:
         200:
           description:  Successfull operation 
@@ -257,7 +248,7 @@ definitions:
         type: string
       balance: 
         type: string
-  Ads:
+  Ad:
     type: object
     properties: 
       creator: 
