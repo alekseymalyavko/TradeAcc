@@ -11,7 +11,7 @@ async function getUser(props) {
 }
 
 async function getUserInfo(props) {
-    return User.findOne(props, { passwordHash: 0, __v: 0, _id: 0 });
+    return User.findOne(props, { passwordHash: 0, __v: 0 });
 }
 
 async function saveUser(username, email, password) {

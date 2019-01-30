@@ -1,6 +1,7 @@
 import express from 'express';
-import userController from '../controllers/user-controller';
 import accountController from '../controllers/account-controller';
+import userController from '../controllers/user-controller';
+import adController from '../controllers/ad-controller';
 
 
 const router = express.Router();
@@ -11,6 +12,17 @@ router.route('/')
       const { _id } = req.user;
       const userInfo = await userController.getUserInfo({ _id });
       res.status(200).send(userInfo);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+router.route('/ads')
+  .get(async (req, res, next) => {
+    try {
+      const { username } = req.user;
+      const ads = await adController.getAdsByProps({ creator: username });
+      res.status(200).send(ads);
     } catch (err) {
       next(err);
     }
@@ -34,6 +46,29 @@ router.route('/balanceUp')
       const { balanceChange } = req.body;
       await userController.updateUserBalance(username, balanceChange);
       res.status(200).send();
+    } catch (err) {
+      next(err);
+    }
+  });
+
+router.route('/:username')
+  .get(async (req, res, next) => {
+    try {
+      const username = req.params.username;
+      const info = await userController.getUserInfo({ username });
+
+      res.status(200).send(info);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+router.route('/:username/ads')
+  .get(async (req, res, next) => {
+    try {
+      const username = req.params.username;
+      const ads = await adController.getAdsByProps({ creator: username });
+      res.status(200).send(ads);
     } catch (err) {
       next(err);
     }

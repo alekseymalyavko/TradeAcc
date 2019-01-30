@@ -8,7 +8,10 @@ async function isPriceValid(price) {
 
 function getAdsByProps(props) {
   return Ad.find(props, { __v: 0 });
+}
 
+function getAdById(_id) {
+  return Ad.findOne({ _id }, { __v: 0 });
 }
 
 async function createAd({ creator, description, price, link }) {
@@ -24,6 +27,7 @@ async function createAd({ creator, description, price, link }) {
 
 async function buyAd(_id, customer) {
   const { price, creator, isOpened } = await getAdById(_id);
+
   if (!isOpened) {
     throw Errors.AdAlreadyClosed;
   }
@@ -38,5 +42,6 @@ async function buyAd(_id, customer) {
 export default {
   createAd,
   buyAd,
-  getAdsByProps
+  getAdsByProps,
+  getAdById,
 }
