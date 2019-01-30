@@ -7,6 +7,7 @@ const Errors = {
     UserNotLogin: { message: 'You are not logged in' },
 
     AdAlreadyClosed: { message: 'This ad already closed' },
+    LinkAlreadyUsed: {message: 'This link already used'},
     NotValidPrice: { message: 'Price is not valid' },
     InsufficientFunds: { message: 'You have not enough money' },
 }
