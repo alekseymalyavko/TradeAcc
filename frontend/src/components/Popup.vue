@@ -40,7 +40,7 @@ export default {
 };
 </script>
 
-<style scoped lang="less">
+<style lang="less">
   .popup {
     &_wrapper {
       position: absolute;
@@ -72,9 +72,29 @@ export default {
       font-size: 18px;
       position: absolute;
       top: 0;
+      left: 0;
       width: 100%;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #E5E6E8;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      text-align: left;
+
+      input {
+        margin: 10px 5px;
+        padding: 10px 5px;
+        font-size: 16px;
+        border:none;
+        border-radius: 2px;
+
+        &[type="submit"] {
+          margin: auto;
+          margin-top: 35px;
+          width: 45%;
+        }
+      }
     }
 
     &.warning {
