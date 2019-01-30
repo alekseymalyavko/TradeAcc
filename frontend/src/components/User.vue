@@ -2,11 +2,11 @@
     <div class="user">
       <div class="user_img">IMG</div>
       <div class="user_info" :class="{ active: isOpen}">
-        <div class="user_info_name" @click="openInfo">Ivan Petrov</div>
+        <div class="user_info_name" @click="openInfo">{{userData.username}}</div>
         
         <div class="user_info_more">
           <span>Личный кабинет</span>
-          <span>Баланс</span>
+          <span>Баланс {{userData.balance}}</span>
           <span>Мои объявления</span>
           <span>Выйти</span>
         </div>
@@ -21,7 +21,12 @@ export default {
   name: "User",
   data() {
     return {
-      isOpen: true
+      isOpen: false
+    }
+  },
+  computed: {
+    userData: function() {
+      return this.$store.getters.getUser
     }
   },
   methods: {
@@ -38,7 +43,8 @@ export default {
     justify-content: center;
     align-items: center;
     position: relative;
-
+    min-width: 170px;
+    
     &_img {
       width: 30px;
       height: 30px;
