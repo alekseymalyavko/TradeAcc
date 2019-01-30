@@ -7,15 +7,19 @@
         <span class="LogIn" @click="logIn">Войти</span> / <span class="signUp" @click="signUp">Регистрация</span>
       </div>
     </div>
+
+    <User/>
+
   </div>
 </template>
 
 <script>
+import User from "./User.vue";
 
 export default {
   name: "Header",
   components: {
-    
+    User
   },
   computed: {
     

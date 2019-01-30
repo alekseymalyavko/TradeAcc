@@ -6,13 +6,16 @@
         <input type="email" placeholder="Почта" name="email" v-model="email" required>
         <input type="password" placeholder="Пароль" name="password" v-model="password" required>
         <input type="password" placeholder="Повторите пароль" name="password1" v-model="password1" required>
-        <input type="submit" value="Войти">
+        
+        <label><input type="checkbox" name="rules" v-model="rules"> Accept rules & terms</label>
+
+        <input type="submit" value="Зарегистрироваться">
       </form>
     </div>
 </template>
 
 <script>
-import { AUTH } from '@/requests/requests.js'
+import { AUTH, HTTP } from '@/requests/requests.js'
 
 export default {
   name: "Signup",
@@ -21,18 +24,19 @@ export default {
       email: "ivan@lol.com",
       username: "user",
       password: "1234",
+      rules: true,
       password1: "1234",
     }
   },
   methods: {
     signUp: function(e) {
       e.preventDefault();
-
-      const body = JSON.stringify({ username: this.username, password: this.password })
-      AUTH.post('/auth', body)
+      const body = JSON.stringify({ username: this.username, email: this.email, password: this.password })
+      AUTH.post('/account/signUp', body)
       .then(res => {
         if(res.data) {
-          HTTP.defaults.headers['Authorization'] = `Bearer ${res.data.token}`;
+          console.log(res)
+          // HTTP.defaults.headers['Authorization'] = `Bearer ${res.data.token}`;
         }
       })
       .catch(e => {
@@ -44,5 +48,3 @@ export default {
   
 };
 </script>
-
-<style scoped lang="less"></style>

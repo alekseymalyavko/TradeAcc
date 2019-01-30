@@ -23,12 +23,12 @@ export default {
   methods: {
     login: function(e) {
       e.preventDefault();
-
       const body = JSON.stringify({ username: this.username, password: this.password })
-      AUTH.post('/auth', body)
+      AUTH.post('/account/login', body)
       .then(res => {
         if(res.data) {
-          HTTP.defaults.headers['Authorization'] = `Bearer ${res.data.token}`;
+          console.log(res)
+          // HTTP.defaults.headers['Authorization'] = `Bearer ${res.data.token}`;
         }
       })
       .catch(e => {
@@ -40,5 +40,3 @@ export default {
   
 };
 </script>
-
-<style scoped lang="less"></style>
