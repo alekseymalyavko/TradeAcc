@@ -69,12 +69,28 @@ paths:
       summary: (user)
       tags:
         -  user 
-      description:  Return user info
+      description:  Return current user info
       responses:
         200:
           description:  Successfull operation 
           schema: 
             $ref:  "#/definitions/UserInfo" 
+        500:
+          description:  Unhandled server error 
+
+  /user/ads:
+    get:
+      summary: (user)
+      tags:
+        -  user 
+      description:  Return current user ads
+      responses:
+        200:
+          description:  Successfull operation 
+          schema: 
+            type: array
+            items:
+              $ref:  "#/definitions/Ads" 
         500:
           description:  Unhandled server error 
 
@@ -121,12 +137,42 @@ paths:
         500:
           description:  Unhandled server error  
 
+  /user/{username}:
+    get:
+      summary: (user)
+      tags:
+        -  user 
+      description:  Return user with "username" info
+      responses:
+        200:
+          description:  Successfull operation 
+          schema: 
+            $ref:  "#/definitions/UserInfo" 
+        500:
+          description:  Unhandled server error 
+
+  /user/{username}/ads:
+    get:
+      summary: (user)
+      tags:
+        -  user 
+      description: Return user with "username" ads
+      responses:
+        200:
+          description:  Successfull operation 
+          schema: 
+            type: array
+            items:
+              $ref:  "#/definitions/Ads" 
+        500:
+          description:  Unhandled server error 
+
   /ad:
     get:
       summary: (user)
       tags:
         -  ad
-      description:  Return array of ads
+      description:  Return array of all ads
       responses:
         200:
           description:  Successfull operation 
@@ -159,12 +205,27 @@ paths:
           description:  Successfull operation 
         500:
           description:  Unhandled server error  
-  /ad/buy:
+
+  /ad/{adID}:
+    get:
+      summary: (user)
+      tags:
+        -  ad
+      description:  Return ad with adID
+      responses:
+        200:
+          description:  Successfull operation 
+          schema: 
+              $ref:  "#/definitions/Ads" 
+        500:
+          description:  Unhandled server error  
+           
+  /ad/{adID}/buy:
     post:
       summary: (user)
       tags:
         -  ad
-      description:  Allows for user to buy ad, update balance of customer and ad creator
+      description:  Allows for user to buy ad with adID, update balance of customer and ad creator
       parameters:
       - in:  body 
         name:  body 

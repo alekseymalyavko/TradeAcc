@@ -5,7 +5,7 @@ import { Errors } from '../utils/constants';
 import userController from './user-controller';
 
 
-async function createTokenForUser(res, user) {
+async function createTokenForUser(user) {
   const token = await JWT.sign({ _id: user._id, username: user.username }, process.env.JWT_SECRET, {
     expiresIn: '7 days', // expires in 7 days
   });

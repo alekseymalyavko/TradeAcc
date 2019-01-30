@@ -42,7 +42,7 @@ router.route('/login')
         next(err);
       }
       if (user) {
-        const token = await accountController.createTokenForUser(res, user);
+        const token = await accountController.createTokenForUser(user);
         res.status(200).send({ token });
       }
       res.status(500).send(info);
