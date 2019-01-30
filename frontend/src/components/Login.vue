@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { AUTH } from '@/requests/requests.js'
+import { AUTH, HTTP } from '@/requests/requests.js'
 
 export default {
   name: "Login",
@@ -27,8 +27,14 @@ export default {
       AUTH.post('/account/login', body)
       .then(res => {
         if(res.data) {
-          console.log(res)
-          // HTTP.defaults.headers['Authorization'] = `Bearer ${res.data.token}`;
+          const token = res.data.token;
+          this.$cookie.set('Authorization', token , { expires: 86400 });
+          HTTP.defaults.headers['Authorization'] = `Bearer ${token}`;
+
+          this.$store.dispatch("getUserData");
+
+          const props = { isOpen: false };
+          this.$store.commit("updatePopup", props);
         }
       })
       .catch(e => {

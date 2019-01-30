@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header/>
+    <Header :isAuthorized="isAuthorized"/>
 
     <Popup v-if="isOpen"/>
   </div>
@@ -20,6 +20,14 @@ export default {
     isOpen() {
       return this.$store.getters.getPopup.isOpen
     },
+    isAuthorized() {
+      return this.$store.getters.isAuthorized
+    }
+  },
+  created() {
+    if (this.isAuthorized) {
+      this.$store.dispatch("getUserData");
+    }
   },
   methods: {
 

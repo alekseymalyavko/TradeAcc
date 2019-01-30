@@ -2,13 +2,13 @@
   <div class="header">
     <img class="header_logo" alt="Vue logo" src="../assets/logo.png" />
     <div class="header_functional">
-      <div class="header_functional_add" @click="createAd">Создать объявление</div>
-      <div class="header_functional_login">
+      <!---<div class="header_functional_add" @click="createAd">Создать объявление</div>-->
+      <div class="header_functional_login" v-if="!isAuthorized">
         <span class="LogIn" @click="logIn">Войти</span> / <span class="signUp" @click="signUp">Регистрация</span>
       </div>
     </div>
 
-    <User/>
+    <User v-if="isAuthorized"/>
 
   </div>
 </template>
@@ -24,14 +24,17 @@ export default {
   computed: {
     
   },
+  props: {
+    isAuthorized: Boolean
+  },
   methods: {
     logIn: function() {
       const props = { isOpen: true, isError: false, component: "Login" };
-      this.$store.dispatch("openPopup", props);
+      this.$store.commit("updatePopup", props);
     },
     signUp: function(e) {
       const props = { isOpen: true, isError: false, component: "Signup" };
-      this.$store.dispatch("openPopup", props);
+      this.$store.commit("updatePopup", props);
     },
     createAd: function(e) {
       console.log("createAd")

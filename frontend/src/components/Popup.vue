@@ -33,7 +33,7 @@ export default {
   methods: {
     close: function() {
       const props = { isOpen: false, isError: false, component: false };
-      this.$store.dispatch("openPopup", props);
+      this.$store.commit("updatePopup", props);
     }
   },
   
