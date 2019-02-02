@@ -8,7 +8,8 @@ const router = express.Router();
 router.route('/')
   .get(async (req, res, next) => {
     try {
-      const ads = await adController.getAdsByProps();
+      const { page, perPage, props } = req.query;
+      const ads = await adController.getAdsByPagination(props, page, perPage);
       res.status(200).send(ads);
     } catch (err) {
       next(err);
@@ -44,9 +45,9 @@ router.route('/:adID/buy')
   .put(async (req, res, next) => {
     try {
       const { username } = req.user;
-      const _id = req.params.adID;
+      const id = req.params.adID;
 
-      await adController.buyAd(_id, username);
+      await adController.buyAd(id, username);
       res.status(200).send();
     } catch (err) {
       next(err);

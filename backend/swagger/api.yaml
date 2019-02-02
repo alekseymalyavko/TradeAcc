@@ -172,7 +172,14 @@ paths:
       summary: (user)
       tags:
         -  ads
-      description:  Return array of all ads
+      description:  Return array of ads by page and amount of ads perPage
+      parameters:
+      - in:  query 
+        name:  page    
+        type:  number 
+      - in:  query 
+        name:  perPage    
+        type:  number 
       responses:
         200:
           description:  Successfull operation 
@@ -197,6 +204,8 @@ paths:
           type:  object 
           properties:
             description:
+              type:  string 
+            link:
               type:  string 
             price:
               type:  number
@@ -263,4 +272,9 @@ definitions:
         type: boolean
       price:
         type: number
+      amountOfSubscribers:
+        type: number
+      link: 
+        type: string
+
 

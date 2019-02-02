@@ -10,8 +10,13 @@ function getAdsByProps(props) {
   return Ad.find(props, { __v: 0 });
 }
 
+function getAdsByPagination(props, page = 1, perPage = 10) {
+  const howManyToSkip = (page - 1) * perPage;
+  return getAdsByProps(props).skip(howManyToSkip).limit(+perPage);
+}
+
 function getAdById(_id) {
-  return Ad.findOne({ _id }, { __v: 0 });
+  return getAdsByProps({ _id });
 }
 
 async function createAd({
@@ -48,4 +53,5 @@ export default {
   buyAd,
   getAdsByProps,
   getAdById,
-}
+  getAdsByPagination,
+};
