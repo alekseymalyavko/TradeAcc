@@ -66,15 +66,14 @@ router.route('/signUp')
       if (!isValidEmail) {
         throw Errors.NotValidEmail;
       }
-      await userController.saveUser(username, email, password);
+      const user = await userController.saveUser(username, email, password);
 
-      const token = await accountController.createTokenForUser(res, user);
+      const token = await accountController.createTokenForUser(user);
       res.status(200).send({ token });
     } catch (err) {
       next(err);
     }
   });
-
 
 
 module.exports = router;

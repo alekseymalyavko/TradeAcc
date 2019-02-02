@@ -1,5 +1,5 @@
 import JWT from 'jsonwebtoken';
-import emailCheck from 'email-check';
+import { validate } from 'email-validator';
 import bcrypt from 'bcryptjs';
 import { Errors } from '../utils/constants';
 import userController from './user-controller';
@@ -12,13 +12,14 @@ async function createTokenForUser(user) {
   return token;
 }
 
+
 function checkPassword(user, password) {
   return bcrypt.compare(password, user.passwordHash);
 }
 
 async function checkEmail(email) {
   try {
-    const isValid = await emailCheck(email);
+    const isValid = await validate(email);
     return isValid;
   } catch (err) {
     return false;
@@ -27,7 +28,7 @@ async function checkEmail(email) {
 async function checkUserLoginStatus(req, res, next) {
   try {
     const authHeader = req.headers.authorization;
-    if (!authHeader|| !authHeader.startsWith("Bearer ")) {
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
       throw Errors.UserNotLogin;
     }
 

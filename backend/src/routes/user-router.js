@@ -54,7 +54,7 @@ router.route('/balanceUp')
 router.route('/:username')
   .get(async (req, res, next) => {
     try {
-      const username = req.params.username;
+      const { username } = req.params;
       const info = await userController.getUserInfo({ username });
 
       res.status(200).send(info);
@@ -66,7 +66,7 @@ router.route('/:username')
 router.route('/:username/ads')
   .get(async (req, res, next) => {
     try {
-      const username = req.params.username;
+      const { username } = req.params;
       const ads = await adController.getAdsByProps({ creator: username });
       res.status(200).send(ads);
     } catch (err) {

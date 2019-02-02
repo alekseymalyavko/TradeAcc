@@ -3,18 +3,25 @@ import { Errors } from '../utils/constants';
 import userController from './user-controller';
 
 async function isPriceValid(price) {
-  return price > 0 && price === `${+price}`
+  return price > 0 && price === `${+price}`;
 }
 
 function getAdsByProps(props) {
   return Ad.find(props, { __v: 0 });
 }
 
-function getAdById(_id) {
-  return Ad.findOne({ _id }, { __v: 0 });
+function getAdsByPagination(props, page = 1, perPage = 10) {
+  const howManyToSkip = (page - 1) * perPage;
+  return getAdsByProps(props).skip(howManyToSkip).limit(+perPage);
 }
 
-async function createAd({ creator, description, price, link }) {
+function getAdById(_id) {
+  return getAdsByProps({ _id });
+}
+
+async function createAd({
+  creator, description, price, link,
+}) {
   if (!isPriceValid(price)) {
     throw Errors.NotValidPrice;
   }
@@ -22,7 +29,9 @@ async function createAd({ creator, description, price, link }) {
   if (isLinkAlreadyUsed) {
     throw Errors.LinkAlreadyUsed;
   }
-  return new Ad({ creator, description, price, link }).save();
+  return new Ad({
+    creator, description, price, link,
+  }).save();
 }
 
 async function buyAd(_id, customer) {
@@ -44,4 +53,5 @@ export default {
   buyAd,
   getAdsByProps,
   getAdById,
-}
+  getAdsByPagination,
+};
