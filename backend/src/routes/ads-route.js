@@ -20,7 +20,9 @@ router.route('/create')
     try {
       const { username } = req.user;
       const { description, price, link } = req.body; // чекать линку????
-      const ad = await adController.createAd({ creator: username, description, price, link });
+      const ad = await adController.createAd({
+        creator: username, description, price, link,
+      });
       res.status(200).send(ad);
     } catch (err) {
       next(err);
@@ -30,8 +32,8 @@ router.route('/create')
 router.route('/:adID')
   .get(async (req, res, next) => {
     try {
-      const _id = req.params.adID;
-      const ads = await adController.getAdById(_id);
+      const id = req.params.adID;
+      const ads = await adController.getAdById(id);
       res.status(200).send(ads);
     } catch (err) {
       next(err);
@@ -50,9 +52,6 @@ router.route('/:adID/buy')
       next(err);
     }
   });
-
-
-
 
 
 module.exports = router;

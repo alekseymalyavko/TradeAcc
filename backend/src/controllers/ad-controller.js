@@ -3,7 +3,7 @@ import { Errors } from '../utils/constants';
 import userController from './user-controller';
 
 async function isPriceValid(price) {
-  return price > 0 && price === `${+price}`
+  return price > 0 && price === `${+price}`;
 }
 
 function getAdsByProps(props) {
@@ -14,7 +14,9 @@ function getAdById(_id) {
   return Ad.findOne({ _id }, { __v: 0 });
 }
 
-async function createAd({ creator, description, price, link }) {
+async function createAd({
+  creator, description, price, link,
+}) {
   if (!isPriceValid(price)) {
     throw Errors.NotValidPrice;
   }
@@ -22,7 +24,9 @@ async function createAd({ creator, description, price, link }) {
   if (isLinkAlreadyUsed) {
     throw Errors.LinkAlreadyUsed;
   }
-  return new Ad({ creator, description, price, link }).save();
+  return new Ad({
+    creator, description, price, link,
+  }).save();
 }
 
 async function buyAd(_id, customer) {
