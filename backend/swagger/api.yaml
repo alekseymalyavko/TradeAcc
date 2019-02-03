@@ -184,9 +184,14 @@ paths:
         200:
           description:  Successfull operation 
           schema: 
-            type: array
-            items:
-              $ref:  "#/definitions/Ad" 
+            type: object
+            properties: 
+              ads:
+                type: array
+                items:
+                  $ref:  "#/definitions/Ad" 
+              pages: 
+                type: number
 
         500:
           description:  Unhandled server error         
