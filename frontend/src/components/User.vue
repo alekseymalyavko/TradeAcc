@@ -5,10 +5,10 @@
         <div class="user_info_name" @click="openInfo">{{userData.username}}</div>
         
         <div class="user_info_more">
-          <span>Личный кабинет</span>
-          <span>Баланс {{userData.balance}}</span>
+          <span><router-link to="/user">Личный кабинет</router-link></span>
+          <span @click="balanceUp">Баланс {{userData.balance}}</span>
           <span>Мои объявления</span>
-          <span>Выйти</span>
+          <span @click="exit">Выйти</span>
         </div>
 
       </div>
@@ -32,6 +32,15 @@ export default {
   methods: {
     openInfo: function() {
       this.isOpen = this.isOpen === true ? false : true;
+    },
+    balanceUp: function() {
+      const props = { isOpen: true, isError: false, component: "Balanceup" };
+      this.$store.commit("updatePopup", props);
+    },
+    exit: function() {
+      this.$store.state.isAuthorized = false;
+      this.$store.commit('updateUser', {})
+      this.$cookie.delete('Authorization');
     }
   }
   
@@ -49,13 +58,36 @@ export default {
       width: 30px;
       height: 30px;
       border-radius: 50%;
-      background: red;
+      background: #41b883;
+      border: 1px solid white;
       padding: 5px;
       margin: 0 10px;
+      display: flex;
+      align-items: center;
+      color: #fff;
     }
 
     &_info {
+      &_name {
+        cursor: pointer;
+        font-size: 20px;
+        position: relative;
+        padding-right: 25px;
 
+        &:after {
+          content: "";
+          width: 12px;
+          height: 12px;
+          border-bottom: 1px solid #2c3e50;
+          border-right: 1px solid #2c3e50;
+          transform: rotate(45deg);
+          position: absolute;
+          right: 4px;
+          top: 2px;
+          transition: 0.4s;
+
+        }
+      }
       &_more {
         text-align: left;
         background: white;
@@ -65,7 +97,6 @@ export default {
         left: 10px;
         border: 1px solid #80808073;
         font-size: 16px;
-        padding: 3px;
         margin-top: 10px;
         min-width: 145px;
         visibility: hidden;
@@ -74,15 +105,16 @@ export default {
 
         span {
           display: block;
-          margin: 3px 5px;
+          padding: 8px 5px;
+          cursor: pointer;
 
           &:hover {
-            color: #fff;
-            background: grey;
+            background: #dadada;
           }
 
           &:last-child {
-            margin-top: 15px;
+            border-top: 1px solid #e0dfdf;
+            margin-top: 10px;
           }
         }
       }
@@ -92,6 +124,12 @@ export default {
       .user_info_more {
         visibility: visible;
         opacity: 1;
+      }
+      .user_info_name {
+        &:after {
+          transform: rotate(-135deg);
+          top: 10px;          
+        }
       }
     }
   }

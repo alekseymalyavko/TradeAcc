@@ -6,7 +6,8 @@
 
       <Signup v-if="component === 'Signup' "/>
       <Login v-if="component === 'Login' "/>
-
+      <Balanceup v-if="component === 'Balanceup' "/>
+      
     </div>
   </div>
 </template>
@@ -14,6 +15,7 @@
 <script>
 import Signup from "./Signup.vue";
 import Login from "./Login.vue";
+import Balanceup from "./Balanceup.vue";
 
 
 export default {
@@ -21,6 +23,7 @@ export default {
   components: {
     Signup,
     Login,
+    Balanceup,
   },
   computed: {
     isError() {
@@ -60,8 +63,8 @@ export default {
     display: block;
     margin: auto;
     width: 400px;
-    min-height: 200px;
-    background: #F7F7F7;
+    min-height: 160px;
+    background: blanchedalmond;
     padding: 10px;
     border-radius: 3px;
     border: 1px solid #b9b9b9;
@@ -81,7 +84,7 @@ export default {
       flex-direction: column;
       padding: 10px;
       text-align: left;
-
+      
       input {
         margin: 10px 5px;
         padding: 10px 5px;
@@ -93,6 +96,7 @@ export default {
           margin: auto;
           margin-top: 35px;
           width: 45%;
+          cursor: pointer;
         }
       }
     }
