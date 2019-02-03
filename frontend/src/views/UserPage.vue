@@ -1,6 +1,6 @@
 <template>
   <div>
-    Main
+    UserPage
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 
 
 export default {
-  name: "Main",
+  name: "UserPage",
   components: {
 
   },

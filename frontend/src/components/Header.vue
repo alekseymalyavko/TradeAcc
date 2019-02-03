@@ -2,13 +2,13 @@
   <div class="header">
     <img class="header_logo" alt="Vue logo" src="../assets/logo.png" />
     <div class="header_functional">
-      <!---<div class="header_functional_add" @click="createAd">Создать объявление</div>-->
+      <div class="header_functional_add"><router-link to="/add">Создать объявление</router-link></div>
       <div class="header_functional_login" v-if="!isAuthorized">
         <span class="LogIn" @click="logIn">Войти</span> / <span class="signUp" @click="signUp">Регистрация</span>
       </div>
+      <User v-if="isAuthorized"/>
     </div>
 
-    <User v-if="isAuthorized"/>
 
   </div>
 </template>
@@ -49,8 +49,8 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 5px 25px;
-    height: 65px;
-    background: grey;
+    height: 60px;
+    background: #dadada;
 
     &_logo {
       width: 40px;
@@ -59,6 +59,7 @@ export default {
 
     &_functional {
       display: flex;
+      align-items: center;
 
       &_add {
         cursor: pointer;
