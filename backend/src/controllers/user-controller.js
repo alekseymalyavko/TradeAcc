@@ -29,10 +29,10 @@ async function updateUserPassword(username, newPasswordHash) {
 
 async function updateUserBalance(username, balanceChange) {
   const user = await getUserInfo({ username });
-  if (user.balance + balanceChange < 0) {
+  if (user.balance + +balanceChange < 0) {
     throw Errors.InsufficientFunds;
   }
-  await User.findOneAndUpdate({ username }, { $set: { balance: user.balance + balanceChange } });
+  await User.findOneAndUpdate({ username }, { $set: { balance: user.balance + +balanceChange } });
 }
 
 
