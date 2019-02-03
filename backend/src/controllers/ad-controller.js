@@ -10,9 +10,17 @@ function getAdsByProps(props) {
   return Ad.find(props, { __v: 0 });
 }
 
-function getAdsByPagination(props, page = 1, perPage = 10) {
+async function getAmountOfPagesWithAds(perPage) {
+  const totalAmount = await Ad.count();
+  const pages = Math.ceil(totalAmount / perPage);
+  return pages;
+}
+
+async function getAdsByPagination(props, page = 1, perPage = 10) {
   const howManyToSkip = (page - 1) * perPage;
-  return getAdsByProps(props).skip(howManyToSkip).limit(+perPage);
+  const pages = await getAmountOfPagesWithAds(perPage);
+  const adsPortion = await getAdsByProps(props).skip(howManyToSkip).limit(+perPage);
+  return { pages, ads: adsPortion };
 }
 
 function getAdById(_id) {
