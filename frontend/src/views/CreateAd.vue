@@ -1,5 +1,5 @@
 <template>
-  <div class="form">
+  <div>
     CreateAd
     <form name="createAd_form" @submit="createAd">
       <input type="text" placeholder="Ссылка на сообщество" name="link" v-model="link" required>

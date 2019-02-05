@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <img class="header_logo" alt="Vue logo" src="../assets/logo.png" />
+    <router-link to="/"><img class="header_logo" alt="Vue logo" src="../assets/logo.png" /></router-link>
     <div class="header_functional">
       <div class="header_functional_add"><router-link to="/add">Создать объявление</router-link></div>
       <div class="header_functional_login" v-if="!isAuthorized">
