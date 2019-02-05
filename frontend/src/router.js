@@ -3,10 +3,11 @@ import Router from "vue-router";
 import Main from "./views/Main.vue";
 import UserPage from "./views/UserPage.vue";
 import CreateAd from "./views/CreateAd.vue";
+import store from "./store";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
@@ -27,3 +28,16 @@ export default new Router({
     },
   ]
 });
+
+router.beforeEach((to, from, next) => {
+  const isAuthorized = store.state.isAuthorized;
+  if (to.name === "add" && !isAuthorized) {
+    const props = { isOpen: true, isError: false, component: "Login" };
+    store.commit("updatePopup", props);
+  } else {
+    next()
+  }
+
+});
+
+export default router;

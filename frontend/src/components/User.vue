@@ -6,7 +6,7 @@
         
         <div class="user_info_more">
           <span><router-link to="/user">Личный кабинет</router-link></span>
-          <span @click="balanceUp">Баланс {{userData.balance}}</span>
+          <span @click="balanceUp">Баланс {{userData.balance}} р.</span>
           <span>Мои объявления</span>
           <span @click="exit">Выйти</span>
         </div>
