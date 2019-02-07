@@ -19,12 +19,12 @@ async function getAmountOfPagesWithAds(perPage) {
 async function getAdsByPagination(props, page = 1, perPage = 10) {
   const howManyToSkip = (page - 1) * perPage;
   const pages = await getAmountOfPagesWithAds(perPage);
-  const adsPortion = await getAdsByProps(props).skip(howManyToSkip).limit(+perPage);
+  const adsPortion = await getAdsByProps(props).sort({ timeOfCreation: -1 }).skip(howManyToSkip).limit(+perPage);
   return { pages, ads: adsPortion };
 }
 
-function getAdById(_id) {
-  return getAdsByProps({ _id });
+function getAdById(adID) {
+  return getAdsByProps({ adID });
 }
 
 async function createAd({
@@ -37,13 +37,14 @@ async function createAd({
   if (isLinkAlreadyUsed) {
     throw Errors.LinkAlreadyUsed;
   }
+  const adID = +(await Ad.count()) + 1;
   return new Ad({
-    creator, description, price, link,
+    creator, description, price, link, adID,
   }).save();
 }
 
-async function buyAd(_id, customer) {
-  const { price, creator, isOpened } = await getAdById(_id);
+async function buyAd(adID, customer) {
+  const { price, creator, isOpened } = await getAdById(adID);
 
   if (!isOpened) {
     throw Errors.AdAlreadyClosed;
@@ -52,7 +53,7 @@ async function buyAd(_id, customer) {
   await userController.updateUserBalance(customer, -price);
   await Promise.all([
     userController.updateUserBalance(creator, price),
-    Ad.findOneAndUpdate({ _id }, { customer, isOpened: false }),
+    Ad.findOneAndUpdate({ adID }, { customer, isOpened: false }),
   ]);
 }
 
