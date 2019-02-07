@@ -25,19 +25,24 @@ async function checkEmail(email) {
     return false;
   }
 }
+
+async function checkToken(authHeader) {
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    throw Errors.UserNotLogin;
+  }
+
+  const token = authHeader.substring(7, authHeader.length);
+  const { _id, username } = await JWT.verify(token, process.env.JWT_SECRET);
+  if (!_id) {
+    throw Errors.UserNotLogin;
+  }
+  return { _id, username };
+}
+
 async function checkUserLoginStatus(req, res, next) {
   try {
     const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      throw Errors.UserNotLogin;
-    }
-
-    const token = authHeader.substring(7, authHeader.length);
-    const { _id, username } = await JWT.verify(token, process.env.JWT_SECRET);
-    if (!_id) {
-      throw Errors.UserNotLogin;
-    }
-    req.user = { _id, username };
+    req.user = await checkToken(authHeader);
     next();
   } catch (err) {
     next(err);
@@ -61,4 +66,5 @@ export default {
   changeUserPassword,
   checkEmail,
   checkUserLoginStatus,
+  checkToken,
 };

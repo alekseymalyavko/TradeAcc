@@ -19,7 +19,7 @@ async function getAmountOfPagesWithAds(perPage) {
 async function getAdsByPagination(props, page = 1, perPage = 10) {
   const howManyToSkip = (page - 1) * perPage;
   const pages = await getAmountOfPagesWithAds(perPage);
-  const adsPortion = await getAdsByProps(props).skip(howManyToSkip).limit(+perPage);
+  const adsPortion = await getAdsByProps(props).sort({ timeOfCreation: -1 }).skip(howManyToSkip).limit(+perPage);
   return { pages, ads: adsPortion };
 }
 
