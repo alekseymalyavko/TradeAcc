@@ -33,8 +33,8 @@ router.route('/create')
 router.route('/:adID')
   .get(async (req, res, next) => {
     try {
-      const id = req.params.adID;
-      const ads = await adController.getAdById(id);
+      const { adID } = req.params;
+      const ads = await adController.getAdById(adID);
       res.status(200).send(ads);
     } catch (err) {
       next(err);
@@ -45,9 +45,9 @@ router.route('/:adID/buy')
   .put(async (req, res, next) => {
     try {
       const { username } = req.user;
-      const id = req.params.adID;
+      const { adID } = req.params;
 
-      await adController.buyAd(id, username);
+      await adController.buyAd(adID, username);
       res.status(200).send();
     } catch (err) {
       next(err);

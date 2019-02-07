@@ -11,6 +11,9 @@ const AdSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   link: { type: String, required: true, trim: true },
   amountOfSubscribers: { type: Number, default: 1000 },
+  adID: {
+    type: Number, required: true,
+  },
 });
 
 module.exports = mongoose.model('Ad', AdSchema);
