@@ -48,6 +48,29 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-}
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    text-align: left;
+    max-width: 300px;
 
+    input {
+      margin: 10px 5px;
+      padding: 10px 5px;
+      font-size: 16px;
+      border:none;
+      border-radius: 2px;
+      border-bottom: 1px solid;
+
+      &[type="submit"] {
+        margin: auto;
+        margin-top: 35px;
+        width: 45%;
+        border:none;
+        cursor: pointer;
+      }
+    }
+  }
 </style>

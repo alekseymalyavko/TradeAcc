@@ -3,62 +3,42 @@
     UserPage
     <div class="user_page">
       Профиль
-      <div class="user_page_personal">
-        <div class="personal_name">Профиль: {{userData.username}}</div>
-        <div class="personal_email">Почта: {{userData.email}}</div>
-        <div class="personal_balance">Баланс: {{userData.balance}}</div>
-        <div class="personal_phone">Телефон: </div>
-        <div class="personal_social">Ссылки социальные сети: </div>
-      </div>
+      <UserInfo/>
 
       Объявления
-      <div class="user_page_ads">
-        <div class="user_page_ads_item" v-for="item in userAdsData" :key="item.id">
-          <div class="user_page_ads_item_link">
-            {{item.link}}
-          </div>
-          <div class="user_page_ads_item_description">
-            {{item.description}}
-          </div>
-          <div class="user_page_ads_item_price">
-            {{item.price}}
-          </div>
-          <div class="user_page_ads_item_price">
-            {{item.amountOfSubscribers}}
-          </div>
-
-        </div>
-      </div>
+      <UserAds/>
 
       Отзывы
-      <div class="user_page_recall">
-        <div class="user_page_recall_item">
-          Супер продавец, на 40гр 
-        </div>
-        <div class="user_page_recall_item">
-          Лучший хоть и гей 
-        </div>
-      </div>
+      <UserRec/>
+
+      Изменить пароль
+      <ChangePass/>
+
+      <Balanceup/>
       
     </div>
   </div>
 </template>
 
 <script>
+import ChangePass from "@/components/UserPage/ChangePass.vue";
+import UserInfo from "@/components/UserPage/UserInfo.vue";
+import UserAds from "@/components/UserPage/UserAds.vue";
+import UserRec from "@/components/UserPage/UserRec.vue";
+import Balanceup from "@/components/Popup/Balanceup.vue";
 
 
 export default {
   name: "UserPage",
   components: {
-
+    ChangePass,
+    UserInfo,
+    UserAds,
+    UserRec,
+    Balanceup,
   },
   computed:{
-    userData: function() {
-      return this.$store.getters.getUser
-    },
-    userAdsData: function() {
-      return this.$store.getters.getUserAds
-    }
+
   },
   mounted() {
 
