@@ -2,6 +2,8 @@ import Vue from "vue";
 import Router from "vue-router";
 import Main from "./views/Main.vue";
 import UserPage from "./views/UserPage.vue";
+import UserPageSecondary from "./views/UserPageSecondary.vue";
+import AdPage from "./views/AdPage.vue";
 import CreateAd from "./views/CreateAd.vue";
 import store from "./store";
 
@@ -25,6 +27,16 @@ const router = new Router({
       path: "/add",
       name: "add",
       component: CreateAd
+    },
+    {
+      path: "/user/:username",
+      name: "SecondaryUserPage",
+      component: UserPageSecondary,
+    },
+    {
+      path: "/ads/:adId",
+      name: "AdPage",
+      component: AdPage,
     },
   ]
 });
