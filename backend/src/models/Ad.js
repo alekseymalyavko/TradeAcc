@@ -9,7 +9,9 @@ const AdSchema = new mongoose.Schema({
   timeOfCreation: { type: Date, default: Date.now() },
   isOpened: { type: Boolean, default: true },
   price: { type: Number, required: true },
-  link: { type: String, required: true, trim: true },
+  link: {
+    type: String, minlength: 1, required: true, trim: true,
+  },
   amountOfSubscribers: { type: Number, default: 1000 },
   adID: {
     type: Number, required: true,
