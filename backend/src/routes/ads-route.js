@@ -1,5 +1,6 @@
 import express from 'express';
 import adController from '../controllers/ad-controller';
+import commentsController from '../controllers/comments-controller';
 
 
 const router = express.Router();
@@ -54,5 +55,28 @@ router.route('/:adID/buy')
     }
   });
 
+router.route('/:adID/comments')
+  .get(async (req, res, next) => {
+    try {
+      const { adID } = req.params;
+
+      const comments = await commentsController.getCommentsByTopicID(adID);
+      res.status(200).send(comments);
+    } catch (err) {
+      next(err);
+    }
+  })
+  .post(async (req, res, next) => {
+    try {
+      const { username } = req.user;
+      const { adID } = req.params;
+      const { message } = req.body;
+
+      await commentsController.saveComment(adID, username, message);
+      res.status(200).send();
+    } catch (err) {
+      next(err);
+    }
+  });
 
 module.exports = router;

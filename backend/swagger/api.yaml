@@ -246,6 +246,41 @@ paths:
         500:
           description:  Unhandled server error  
 
+  /ads/{adID}/comments:
+    get:
+      summary: (user)
+      tags:
+        -  ads
+      description:  Allows for user to get comments on ad with adID
+      responses:
+        200:
+          description:  Successfull operation 
+          schema: 
+            type: array
+            items:
+              $ref:  "#/definitions/Comment"
+        500:
+          description:  Unhandled server error  
+    post:
+      summary: (user)
+      tags:
+        -  ads
+      description:  Allows for user to left comment on ad with adID
+      parameters:
+      - in:  body 
+        name:  body 
+        required: true    
+        schema:             
+          type:  object 
+          properties:
+            message:
+              type:  string 
+      responses:
+        200:
+          description:  Successfull operation 
+        500:
+          description:  Unhandled server error 
+
 
 definitions:
   Token: 
@@ -280,6 +315,16 @@ definitions:
       amountOfSubscribers:
         type: number
       link: 
+        type: string
+        
+  Comment:
+    type: object
+    properties: 
+      username: 
+        type: string
+      date: 
+        type: string
+      message: 
         type: string
 
 
