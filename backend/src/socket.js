@@ -3,6 +3,7 @@ import server from './app';
 import accountController from './controllers/account-controller';
 import userController from './controllers/user-controller';
 import privateChatController from './controllers/private-chat-controller';
+import { Errors } from './utils/constants';
 
 const io = socketIO(server);
 io
@@ -10,33 +11,37 @@ io
   .use(async (socket, next) => {
     try {
       const { token } = socket.handshake.query;
-      const { _id } = await accountController.checkToken(token);
-      socket.user = { _id };
+      socket.user = await accountController.checkToken(token);
       next();
     } catch (err) {
-      console.log('AAAAAAAAA', err);
+      next(err);
     }
   })
-  .on('connect', (socket) => {
+  .on('connect', (socket, next) => {
     try {
-      console.log('hi', socket.user._id);
-      socket.on('subscribe', async (room) => {
-        const user = await userController.getUser({ _id: room });
-        if (!user) {
-          // disconnect???
+      socket.on('subscribe', async (companion) => {
+        try {
+          const user = await userController.getUser({ _id: companion });
+          if (!user) {
+            throw Errors.NoUserWithID;
+          }
+          const { _id, history } = await privateChatController.getPrivateChat([companion, socket.user._id]);
+          socket.join(_id, () => {
+            socket.room = _id;
+            socket.emit('ready', history);
+          });
+        } catch (e) {
+          throw Errors.NoUserWithID;
         }
-        const chat = await privateChatController.getPrivateChat([room, socket.user._id]);
-        socket.join(chat._id, () => {
-          socket.room = chat._id;
-          socket.emit('ready');
-          console.log(`${socket.user._id} Succesfully joined ${chat._id} for speaking with ${user._id}`);
-        });
       });
       socket.on('message', async (data) => {
-        socket.to(socket.room).emit('answer', data);
+        data.username = socket.user.username;
+        data.date = new Date();
+        await privateChatController.saveMessage(socket.room, data);
+        socket.nsp.to(socket.room).emit('answer', data);
       });
     } catch (err) {
-      console.log('AAAAAAAAA', err);
+      next(err);
     }
   });
 

@@ -4,7 +4,7 @@ const ChatSchema = new mongoose.Schema({
   participants: {
     type: Array, required: true,
   },
-  story: {
+  history: {
     type: Array, required: true,
   },
 });
