@@ -235,7 +235,7 @@ paths:
           description:  Unhandled server error  
 
   /ads/{adID}/buy:
-    post:
+    put:
       summary: (user)
       tags:
         -  ads
