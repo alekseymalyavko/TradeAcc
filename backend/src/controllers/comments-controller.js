@@ -6,7 +6,9 @@ async function getCommentsByTopicID(topicID) {
 }
 
 async function saveComment(topicID, username, message) {
-  await new Comments({ topicID, username, message }).save();
+  await new Comments({
+    date: new Date(), topicID, username, message,
+  }).save();
 }
 
 export default {

@@ -6,7 +6,7 @@ const AdSchema = new mongoose.Schema({
   },
   customer: { type: String, trim: true },
   description: { type: String, trim: true },
-  timeOfCreation: { type: Date, default: Date.now() },
+  timeOfCreation: { type: Date },
   isOpened: { type: Boolean, default: true },
   price: { type: Number, required: true },
   link: {
