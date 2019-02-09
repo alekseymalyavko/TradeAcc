@@ -6,7 +6,8 @@ const Errors = {
   UsernameMustNotContainsSobaka: { message: 'Username mustn\'t contains @' },
   UserNotLogin: { message: 'You are not logged in', status: 422 },
 
-  NoUserWithID: { message: 'no users with this id' },
+  NoUserWithUsername: { message: 'no user with this username' },
+  NoUserWithID: { message: 'no user with this id' },
   AdAlreadyClosed: { message: 'This ad already closed' },
   LinkAlreadyUsed: { message: 'This link already used' },
   NotValidPrice: { message: 'Price is not valid' },

@@ -39,7 +39,7 @@ async function createAd({
   }
   const adID = +(await Ad.count()) + 1;
   return new Ad({
-    creator, description, price, link, adID,
+    creator, description, price, link, adID, timeOfCreation: new Date(),
   }).save();
 }
 
