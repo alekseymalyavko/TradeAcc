@@ -9,10 +9,10 @@ export default new Vuex.Store({
   state: {
     isAuthorized: Boolean(cookie.get('Authorization')),
     Popup: { isOpen: false, isError: false, component: "Signup" },
-    User: { username: '', email: '', balance: '', Ads:[], },
-    SecondaryUser: { UserData: {}, Ads:[], },
+    User: { Personal: { username: '', email: '', balance: ''} , Ads:[], Comments:[] },
+    SecondaryUser: { Personal: {}, Ads:[], Comments:[] },
     Ads: [],
-    CurrentAd: {},
+    CurrentAd: { AdData: {}, Comments:[] },
   },
   getters: {
     isAuthorized(state) {
@@ -24,10 +24,13 @@ export default new Vuex.Store({
 
     //User
     getUser(state) {
-      return state.User
+      return state.User.Personal
     },
     getUserAds(state) {
       return state.User.Ads
+    },
+    getUserComments(state) {
+      return state.User.Comments
     },
 
     //Ads
@@ -35,15 +38,21 @@ export default new Vuex.Store({
       return state.Ads
     },
     getCurrentAd(state) {
-      return state.CurrentAd
+      return state.CurrentAd.AdData
+    },
+    getCurrentAdComments(state) {
+      return state.CurrentAd.Comments
     },
 
     //SecondaryUser    
     getSecondaryUser(state) {
-      return state.SecondaryUser.UserData
+      return state.SecondaryUser.Personal
     },
     getSecondaryUserAds(state) {
       return state.SecondaryUser.Ads
+    },
+    getSecondaryUserComments(state) {
+      return state.SecondaryUser.Comments
     },
   },
   mutations: {
@@ -58,12 +67,15 @@ export default new Vuex.Store({
 
     //User
     updateUser(state, props) {
-      state.User.username = props.username;
-      state.User.email = props.email;
-      state.User.balance = props.balance;
+      state.User.Personal.username = props.username;
+      state.User.Personal.email = props.email;
+      state.User.Personal.balance = props.balance;
     },
     updateUserAds(state, props) {
       state.User.Ads = props;
+    },
+    updateUserComments(state, props) {
+      state.User.Comments = props;
     },
 
     //Ads
@@ -71,16 +83,23 @@ export default new Vuex.Store({
       state.Ads = props;
     },
     updateCurrentAd(state, props) {
-      state.CurrentAd = props;
+      state.CurrentAd.AdData = props;
+    },
+    updateCurrentAdComments(state, props) {
+      state.CurrentAd.Comments = props;
     },
 
     //secondaryUser
     updateSecondaryUser(state, props) {
-      state.SecondaryUser.UserData = props;
+      state.SecondaryUser.Personal = props;
     },
     updateSecondaryUserAds(state, props) {
       state.SecondaryUser.Ads = props;
     },
+    updateSecondaryUserComments(state, props) {
+      state.SecondaryUser.Comments = props;
+    },
+    
   },
   actions: {
     getUserData({commit}) {
@@ -100,6 +119,18 @@ export default new Vuex.Store({
       .then(res => {
         if(res.data) {
           commit('updateUserAds', res.data)
+        }
+      })
+      .catch(e => {
+        return e
+      })
+    },
+    getUserCommentsData({commit}) {
+      const username = this.state.User.Personal.username;
+      HTTP.get(`/user/${username}/comments`)
+      .then(res => {
+        if(res.data) {
+          commit('updateUserComments', res.data)
         }
       })
       .catch(e => {
@@ -137,6 +168,18 @@ export default new Vuex.Store({
         return e
       })
     },
+    getCurrentAdCommentsData({commit}, props) {
+      let adID = props;
+      HTTP.get(`/ads/${adID}/comments`)
+      .then(res => {
+        if(res.data) {
+          commit('updateCurrentAdComments', res.data )
+        }
+      })
+      .catch(e => {
+        return e
+      })
+    },
 
 
     getSecondaryUser({commit}, props) {
@@ -157,6 +200,18 @@ export default new Vuex.Store({
       .then(res => {
         if(res.data) {
           commit('updateSecondaryUserAds', res.data)
+        }
+      })
+      .catch(e => {
+        return e
+      })
+    },
+    getSecondaryUserCommentsData({commit}, props) {
+      const username = props;
+      HTTP.get(`/user/${username}/comments`)
+      .then(res => {
+        if(res.data) {
+          commit('updateSecondaryUserComments', res.data)
         }
       })
       .catch(e => {

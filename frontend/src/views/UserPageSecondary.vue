@@ -1,21 +1,34 @@
 <template>
   <div>
-    {{username}}
-    <div>
-      {{secondaryUserData}}
-    </div>
-    <div>
-      {{secondaryUserDataAds}}
-    </div>
+    Инфо
+    <UserSecInfo/>
+    
+    Объявления 
+    <UserSecAds/>
+
+    Отзывы
+    <UserSecRec/>
+
+    Добавить отзыв
+    <UserSecAddComment :username="username"/>
+
   </div>
 </template>
 
 <script>
+import UserSecInfo from "@/components/UserPageSecondary/UserSecInfo.vue";
+import UserSecAds from "@/components/UserPageSecondary/UserSecAds.vue";
+import UserSecAddComment from "@/components/UserPageSecondary/UserSecAddComment.vue";
+import UserSecRec from "@/components/UserPageSecondary/UserSecRec.vue";
 
 
 export default {
   name: "UserPageSecondary",
   components: {
+    UserSecInfo,
+    UserSecAds,
+    UserSecAddComment,
+    UserSecRec,
 
   },
   data() {
@@ -23,23 +36,11 @@ export default {
       username: this.$route.params.username
     }
   },
-  computed:{
-    secondaryUserData() {
-      return this.$store.getters.getSecondaryUser
-    },
-    secondaryUserDataAds() {
-      return this.$store.getters.getSecondaryUserAds
-    }
-  },
-  mounted() {
-  },
   created() {
     this.$store.dispatch("getSecondaryUser", this.username);
     this.$store.dispatch("getSecondaryUserAdsData", this.username);
+    this.$store.dispatch("getSecondaryUserCommentsData", this.username);
   },
-  methods: {
-
-  }
 };
 </script>
 
@@ -49,22 +50,24 @@ export default {
     text-align: left;
 
     &_personal {
+      text-align: left;
       padding: 20px;
     }
 
     &_ads {
-      padding: 20px;
+      // padding: 20px;
 
       &_item {
         padding: 5px 0;
+        text-align: left;
       }
     }
 
     &_recall {
-      padding: 20px;
+      // padding: 20px;
 
       &_item {
-        padding: 5px 0;
+        // padding: 5px 0;
       }
     }
   }

@@ -1,9 +1,10 @@
 <template>
   <div class="user_page_recall">
-    <div class="user_page_recall_item">
-      Супер продавец, на 40гр 
+    {{userDataComments}}
+    <div class="user_page_recall_item" v-if="!userDataComments">
+      Нет отзывов
     </div>
-    <div class="user_page_recall_item">
+    <div class="user_page_recall_item" v-else>
       Лучший хоть и гей 
     </div>
   </div>
@@ -15,7 +16,9 @@ import { HTTP } from '@/requests/requests.js'
 export default {
   name: "UserRec",
   computed: {
-
+    userDataComments: function() {
+      return this.$store.getters.getUserComments[0]
+    },
   },
   methods: {
     

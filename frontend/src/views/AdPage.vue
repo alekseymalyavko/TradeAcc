@@ -1,72 +1,46 @@
 <template>
   <div>
-    AdPage
-    <div class="ad_page_ads_item">
-      <div class="ad_page_ads_item_creator">
-        <a :href="`/user/${currentAdData.creator}`">{{currentAdData.creator}}</a>
-      </div>
-      <div class="ad_page_ads_item_link">
-        Ссылка: {{currentAdData.link}}
-      </div>
-      <div class="ad_page_ads_item_description">
-        Описание: {{currentAdData.description}}
-      </div>
-      <div class="ad_page_ads_item_price">
-        Цена: {{currentAdData.price}}
-      </div>
-      <div class="ad_page_ads_item_price">
-        Количество подписчиков: {{currentAdData.amountOfSubscribers}}
-      </div>
-    </div>
+    <AdData/>
 
     Купить сообщество
-    <div>
-      <form name="buy_acc" @submit="buyAcc">
-        <input type="number" placeholder="" name="acc" v-model="adID" hidden>
-        <input type="submit" value="Купить">
-      </form>
-    </div>
+    <AdBuy :adID="adID"/>
+
+    Комментарии
+    <AdComments/>
+
+    Оставить комментарий
+    <AdAddComment :adID="adID"/>
+
   </div>
 </template>
 
 <script>
 import { HTTP } from '@/requests/requests'
 
+import AdData from "@/components/AdPage/AdData.vue";
+import AdComments from "@/components/AdPage/AdComments.vue";
+import AdBuy from "@/components/AdPage/AdBuy.vue";
+import AdAddComment from "@/components/AdPage/AdAddComment.vue";
+
+
 export default {
   name: "AdPage",
   components: {
+    AdData,
+    AdComments,
+    AdBuy,
+    AdAddComment,
 
   },
   data() {
     return {
-      adID: this.$route.params.adID
+      adID: this.$route.params.adID,
     }
-  },
-  computed:{
-    currentAdData() {
-      return this.$store.getters.getCurrentAd
-    }
-  },
-  mounted() {
   },
   created() {
     this.$store.dispatch("getCurrentAdData", this.adID);
+    this.$store.dispatch("getCurrentAdCommentsData", this.adID);
   },
-  methods: {
-    buyAcc: function(e) {
-      e.preventDefault();
-
-      HTTP.post(`/ads/${this.adID}/buy`)
-      .then(res => {
-        if(res.status === 200) {
-          console.log("Куплено")
-        }
-      })
-      .catch(e => {
-        this.isError = true;
-      })
-    }
-  }
 };
 </script>
 
