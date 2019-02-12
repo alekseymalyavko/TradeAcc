@@ -9,7 +9,7 @@ async function getPrivateChat(participants) {
 }
 
 async function saveMessage(_id, data) {
-  await PrivateChat.findOneAndUpdate({ _id }, { $push: { history: data } });
+  await PrivateChat.findOneAndUpdate({ _id }, { $push: { history: { $each: [data], $position: 0 } } });
 }
 
 export default {

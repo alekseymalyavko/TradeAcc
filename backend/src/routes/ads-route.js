@@ -35,8 +35,8 @@ router.route('/:adID')
   .get(async (req, res, next) => {
     try {
       const { adID } = req.params;
-      const ads = await adController.getAdById(adID);
-      res.status(200).send(ads);
+      const ad = await adController.getAdById(adID);
+      res.status(200).send(ad);
     } catch (err) {
       next(err);
     }
