@@ -8,6 +8,9 @@
           <div class="main_page_ads_item_creator">
             <a :href="`/user/${item.creator}`">{{item.creator}}</a>
           </div>
+          <div class="main_page_ads_item_full">
+            <a :href="`/ads/${item.adID}`">Посмотреть</a>
+          </div>
           <div class="main_page_ads_item_link">
             {{item.link}}
           </div>

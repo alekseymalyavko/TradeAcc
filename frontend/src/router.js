@@ -34,7 +34,7 @@ const router = new Router({
       component: UserPageSecondary,
     },
     {
-      path: "/ads/:adId",
+      path: "/ads/:adID",
       name: "AdPage",
       component: AdPage,
     },

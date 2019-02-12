@@ -12,6 +12,7 @@ export default new Vuex.Store({
     User: { username: '', email: '', balance: '', Ads:[], },
     SecondaryUser: { UserData: {}, Ads:[], },
     Ads: [],
+    CurrentAd: {},
   },
   getters: {
     isAuthorized(state) {
@@ -32,6 +33,9 @@ export default new Vuex.Store({
     //Ads
     getAds(state) {
       return state.Ads
+    },
+    getCurrentAd(state) {
+      return state.CurrentAd
     },
 
     //SecondaryUser    
@@ -65,6 +69,9 @@ export default new Vuex.Store({
     //Ads
     updateAds(state, props) {
       state.Ads = props;
+    },
+    updateCurrentAd(state, props) {
+      state.CurrentAd = props;
     },
 
     //secondaryUser
@@ -112,6 +119,18 @@ export default new Vuex.Store({
       .then(res => {
         if(res.data) {
           commit('updateAds', res.data )
+        }
+      })
+      .catch(e => {
+        return e
+      })
+    },
+    getCurrentAdData({commit}, props) {
+      let adID = props;
+      HTTP.get(`/ads/${adID}`)
+      .then(res => {
+        if(res.data) {
+          commit('updateCurrentAd', res.data[0] )
         }
       })
       .catch(e => {
