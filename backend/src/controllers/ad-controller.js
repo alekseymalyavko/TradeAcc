@@ -23,8 +23,8 @@ async function getAdsByPagination(props, page = 1, perPage = 10) {
   return { pages, ads: adsPortion };
 }
 
-function getAdById(adID) {
-  return getAdsByProps({ adID });
+async function getAdById(adID) {
+  return Ad.findOne({ adID }, { __v: 0 });
 }
 
 async function createAd({
@@ -45,6 +45,7 @@ async function createAd({
 
 async function buyAd(adID, customer) {
   const { price, creator, isOpened } = await getAdById(adID);
+
 
   if (!isOpened) {
     throw Errors.AdAlreadyClosed;
