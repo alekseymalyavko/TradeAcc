@@ -35,6 +35,13 @@ async function updateUserBalance(username, balanceChange) {
   await User.findOneAndUpdate({ username }, { $set: { balance: user.balance + +balanceChange } });
 }
 
+async function getUserIDByUsername(username) {
+  const user = await getUserInfo({ username });
+  if (!user) {
+    throw Errors.NoUserWithUsername;
+  }
+  return user._id;
+}
 
 export default {
   getUser,
@@ -43,4 +50,5 @@ export default {
   updateUserPassword,
   updateUserBalance,
   saveUser,
+  getUserIDByUsername,
 };

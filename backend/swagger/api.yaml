@@ -166,6 +166,40 @@ paths:
               $ref:  "#/definitions/Ad" 
         500:
           description:  Unhandled server error 
+  /user/{username}/comments:
+    get:
+      summary: (user)
+      tags:
+        -  comments on user
+      description:  Allows for user to get comments on user by his username
+      responses:
+        200:
+          description:  Successfull operation 
+          schema: 
+            type: array
+            items:
+              $ref:  "#/definitions/Comment"
+        500:
+          description:  Unhandled server error  
+    post:
+      summary: (user)
+      tags:
+        - comments on user
+      description:  Allows for user to left comment on user by username
+      parameters:
+      - in:  body 
+        name:  body 
+        required: true    
+        schema:             
+          type:  object 
+          properties:
+            message:
+              type:  string 
+      responses:
+        200:
+          description:  Successfull operation 
+        500:
+          description:  Unhandled server error 
 
   /ads:
     get:
@@ -235,7 +269,7 @@ paths:
           description:  Unhandled server error  
 
   /ads/{adID}/buy:
-    post:
+    put:
       summary: (user)
       tags:
         -  ads
@@ -245,6 +279,41 @@ paths:
           description:  Successfull operation 
         500:
           description:  Unhandled server error  
+
+  /ads/{adID}/comments:
+    get:
+      summary: (user)
+      tags:
+        -  comments on ad
+      description:  Allows for user to get comments on ad with adID
+      responses:
+        200:
+          description:  Successfull operation 
+          schema: 
+            type: array
+            items:
+              $ref:  "#/definitions/Comment"
+        500:
+          description:  Unhandled server error  
+    post:
+      summary: (user)
+      tags:
+        -  comments on ad
+      description:  Allows for user to left comment on ad with adID
+      parameters:
+      - in:  body 
+        name:  body 
+        required: true    
+        schema:             
+          type:  object 
+          properties:
+            message:
+              type:  string 
+      responses:
+        200:
+          description:  Successfull operation 
+        500:
+          description:  Unhandled server error 
 
 
 definitions:
@@ -280,6 +349,16 @@ definitions:
       amountOfSubscribers:
         type: number
       link: 
+        type: string
+        
+  Comment:
+    type: object
+    properties: 
+      username: 
+        type: string
+      date: 
+        type: string
+      message: 
         type: string
 
 
